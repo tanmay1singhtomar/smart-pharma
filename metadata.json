@@ -1,0 +1,6 @@
+{
+  "name": "Smart Warehouse – Medicine Inventory Management System",
+  "description": "A modern, responsive vanilla HTML, CSS, and JavaScript medicine warehouse inventory system featuring real-time stock monitoring, expiry tracking, rule-based reorder recommendations, and report exports in Indian Rupees (₹).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

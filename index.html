@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Warehouse – Medicine Inventory Management System</title>
+  <meta name="description" content="A comprehensive, responsive medicine inventory and warehouse management system featuring real-time stock tracking, expiry alerts, and smart reordering in Indian Rupees (₹).">
+  <meta property="og:title" content="Smart Warehouse – Medicine Inventory Management System">
+  <meta property="og:description" content="A modern, responsive vanilla HTML, CSS, and JavaScript medicine warehouse inventory system.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       1. LOGIN SCREEN
+       ====================================================================== -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">
+          <!-- Medical Cross / Warehouse Box Icon SVG -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <h1>SmartMed Warehouse</h1>
+        <p>Medicine Inventory &amp; Logistics Management</p>
+      </div>
+
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Username / Official Email</label>
+          <div class="input-with-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <input type="text" id="login-email" class="form-control" placeholder="admin@smartmed.in" value="admin@smartmed.in" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">Security Password</label>
+          <div class="input-with-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input type="password" id="login-password" class="form-control" placeholder="••••••••" value="warehouse2026" required autocomplete="current-password">
+          </div>
+        </div>
+
+        <div class="login-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="login-remember" checked>
+            <span>Remember terminal</span>
+          </label>
+          <span style="font-size:0.75rem; color:var(--text-muted);">BTech Project Demo</span>
+        </div>
+
+        <button type="submit" class="btn-primary" id="btn-login-submit">
+          <span>Sign In to Dashboard</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+
+        <div class="demo-credentials-box">
+          <div class="demo-header">
+            <span>Demo Credentials (Pre-configured)</span>
+            <button type="button" class="btn-text-sm" id="btn-demo-login-fill">1-Click Auto Fill</button>
+          </div>
+          <div>User: <strong>admin@smartmed.in</strong> · Pass: <strong>warehouse2026</strong></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       2. MAIN APPLICATION CONTAINER
+       ====================================================================== -->
+  <div id="app-container" class="app-container" style="display:none;">
+
+    <!-- Left Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <div class="brand-title">SmartMed IMS</div>
+          <span class="brand-tag">Smart Warehouse Hub</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Core Operations</div>
+        
+        <button class="nav-item active" data-view="dashboard">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </div>
+        </button>
+
+        <button class="nav-item" data-view="inventory">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Medicine Inventory</span>
+          </div>
+        </button>
+
+        <button class="nav-item" onclick="SmartWarehouse.openAddMedicineModal()">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <span>Add Medicine</span>
+          </div>
+        </button>
+
+        <button class="nav-item" data-view="movement">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+            <span>Stock Movement</span>
+          </div>
+        </button>
+
+        <div class="nav-section-title">Stock Intelligence</div>
+
+        <button class="nav-item" data-view="low-stock">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>Low Stock Items</span>
+          </div>
+          <span class="nav-badge danger" id="nav-badge-lowstock" style="display:none;">0</span>
+        </button>
+
+        <button class="nav-item" data-view="expiry">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Expiry Tracking</span>
+          </div>
+          <span class="nav-badge warning" id="nav-badge-expiry" style="display:none;">0</span>
+        </button>
+
+        <button class="nav-item" data-view="reorder">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            <span>Smart Reorder</span>
+          </div>
+        </button>
+
+        <div class="nav-section-title">Administration</div>
+
+        <button class="nav-item" data-view="reports">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Reports &amp; Audits</span>
+          </div>
+        </button>
+
+        <button class="nav-item" data-view="settings">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings</span>
+          </div>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span>Warehouse #4 Live</span>
+        </div>
+        <span class="num" style="font-size:0.7rem; color:var(--text-subtle);">v2.4 Demo</span>
+      </div>
+    </aside>
+
+    <!-- Main Viewport Wrapper -->
+    <div class="main-wrapper">
+      
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Navigation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          
+          <div class="topbar-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="topbar-global-search" placeholder="Search medicines by name, ID, batch, or supplier...">
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="date-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="topbar-live-date">--</span>
+          </div>
+
+          <button id="topbar-notif-btn" class="icon-btn" aria-label="Notifications Alert Center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span id="notif-badge-count" class="icon-badge" style="display:none;">0</span>
+          </button>
+
+          <div class="user-profile-badge">
+            <div class="user-avatar">DR</div>
+            <div class="user-info">
+              <span id="topbar-user-name" class="user-name">Dr. Rajesh Sharma</span>
+              <span id="topbar-user-role" class="user-role">Warehouse Lead</span>
+            </div>
+          </div>
+
+          <button id="btn-logout" class="btn-logout" title="Sign Out">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Views Section -->
+      <main class="content-area">
+
+        <!-- ================================================================
+             VIEW 1: DASHBOARD
+             ================================================================ -->
+        <section id="view-dashboard" class="page-view active">
+          <div class="page-header">
+            <div class="page-title-box">
+              <h2>Warehouse Operations Dashboard</h2>
+              <p>Real-time pharmaceutical inventory metrics, shelf-life alerts &amp; replenishment status</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn-secondary" onclick="SmartWarehouse.openStockMovementModal('Stock In')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Stock In</span>
+              </button>
+              <button class="btn-secondary" onclick="SmartWarehouse.openStockMovementModal('Stock Out')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Stock Out</span>
+              </button>
+              <button class="btn-action-primary" onclick="SmartWarehouse.openAddMedicineModal()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                <span>Add Medicine</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 6 Primary Metric Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Total Medicines</span>
+                <div class="stat-icon blue">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+                </div>
+              </div>
+              <div id="stat-total-meds" class="stat-value num">0</div>
+              <div class="stat-footer">Unique pharmaceutical formulations</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Total Stock Units</span>
+                <div class="stat-icon emerald">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+              </div>
+              <div id="stat-total-units" class="stat-value num">0</div>
+              <div class="stat-footer">On-hand physical stock across bays</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Low Stock Items</span>
+                <div class="stat-icon amber">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                </div>
+              </div>
+              <div id="stat-low-stock" class="stat-value num">0</div>
+              <div class="stat-footer" style="color:var(--warning);">Below minimum stock threshold</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Expiring Soon</span>
+                <div class="stat-icon purple">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+              </div>
+              <div id="stat-expiring" class="stat-value num">0</div>
+              <div class="stat-footer">Expires within next 30 days</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Out-of-Stock</span>
+                <div class="stat-icon rose">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                </div>
+              </div>
+              <div id="stat-out-of-stock" class="stat-value num">0</div>
+              <div class="stat-footer" style="color:var(--danger);">Depleted inventory (0 units)</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Total Inventory Value</span>
+                <div class="stat-icon indigo">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+              </div>
+              <div id="stat-valuation" class="stat-value num" style="font-size:1.35rem;">₹ 0.00</div>
+              <div class="stat-footer">Estimated valuation (INR ₹)</div>
+            </div>
+          </div>
+
+          <!-- Split Visual: Stock by Category Chart + Stock Health Breakdown -->
+          <div class="dashboard-grid-split">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span>Stock Overview by Therapeutic Category</span>
+                  </div>
+                  <div class="card-subtitle">Real-time total physical units calculated across warehouse categories</div>
+                </div>
+                <span class="badge info">HTML5 Canvas Engine</span>
+              </div>
+              <div class="chart-container">
+                <canvas id="stock-canvas-chart"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    <span>Warehouse Inventory Health</span>
+                  </div>
+                  <div class="card-subtitle">Overall compliance and safety buffer distribution</div>
+                </div>
+              </div>
+              <div id="stock-health-container" class="stock-health-list">
+                <!-- Dynamically generated via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard Tables Grid: Recent Movements, Low Stock, Expiring -->
+          <div class="dashboard-tables-grid">
+            
+            <!-- Recent Stock Movements -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Recent Stock Movements</div>
+                  <div class="card-subtitle">Latest inbound &amp; outbound warehouse transactions</div>
+                </div>
+                <button class="btn-text-sm" onclick="SmartWarehouse.navigateTo('movement')">View All</button>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Medicine</th>
+                      <th>Type</th>
+                      <th style="text-align:right;">Quantity</th>
+                      <th style="text-align:right;">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-recent-movements-tbody">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Critical Low Stock Items -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title" style="color:var(--warning);">Low Stock Requisitions</div>
+                  <div class="card-subtitle">Items at or below minimum threshold</div>
+                </div>
+                <button class="btn-text-sm" onclick="SmartWarehouse.navigateTo('low-stock')">View All</button>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Medicine</th>
+                      <th style="text-align:center;">Qty / Min</th>
+                      <th style="text-align:center;">Shortage</th>
+                      <th style="text-align:right;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-lowstock-tbody">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Expiring Batches -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title" style="color:var(--danger);">Expiring Batches (Priority)</div>
+                  <div class="card-subtitle">Batches approaching shelf-life expiration</div>
+                </div>
+                <button class="btn-text-sm" onclick="SmartWarehouse.navigateTo('expiry')">View All</button>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Medicine</th>
+                      <th>Expiry</th>
+                      <th style="text-align:center;">Stock</th>
+                      <th style="text-align:right;">Countdown</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-expiring-tbody">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 2: INVENTORY MANAGEMENT PAGE
+             ================================================================ -->
+        <section id="view-inventory" class="page-view">
+          <div class="page-header">
+            <div class="page-title-box">
+              <h2>Medicine Master Inventory</h2>
+              <p>Comprehensive pharmaceutical catalogue with real-time stock levels, batch codes &amp; pricing</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn-secondary" onclick="SmartWarehouse.navigateTo('reports')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export Ledger</span>
+              </button>
+              <button class="btn-action-primary" onclick="SmartWarehouse.openAddMedicineModal()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                <span>Add Medicine</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Table Filter Toolbar -->
+          <div class="table-toolbar">
+            <div class="table-filters">
+              <div class="filter-input">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="inv-search-input" placeholder="Search medicine, ID, batch...">
+              </div>
+
+              <select id="inv-filter-category" class="filter-select">
+                <option value="all">All Categories</option>
+              </select>
+
+              <select id="inv-filter-status" class="filter-select">
+                <option value="all">All Statuses</option>
+                <option value="in-stock">In Stock</option>
+                <option value="low-stock">Low Stock</option>
+                <option value="expiring-soon">Expiring Soon</option>
+                <option value="out-of-stock">Out of Stock</option>
+                <option value="expired">Expired</option>
+              </select>
+
+              <select id="inv-page-size" class="filter-select">
+                <option value="10">10 per page</option>
+                <option value="20">20 per page</option>
+                <option value="50">50 per page</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Full Table Container -->
+          <div class="table-responsive">
+            <table id="inventory-data-table" class="data-table">
+              <thead>
+                <tr>
+                  <th class="sortable" data-sort="id">ID ↕</th>
+                  <th class="sortable" data-sort="name">Medicine Name &amp; Usage ↕</th>
+                  <th class="sortable" data-sort="category">Category ↕</th>
+                  <th>Batch No.</th>
+                  <th class="sortable" data-sort="quantity" style="text-align:right;">Stock (Units) ↕</th>
+                  <th class="sortable" data-sort="minStock" style="text-align:right;">Min Stock ↕</th>
+                  <th class="sortable" data-sort="expiryDate" style="text-align:center;">Expiry Date ↕</th>
+                  <th class="sortable" data-sort="supplier">Supplier ↕</th>
+                  <th class="sortable" data-sort="purchasePrice" style="text-align:right;">Unit Price (₹) ↕</th>
+                  <th>Status</th>
+                  <th style="text-align:center;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="inventory-table-tbody">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+
+            <div id="inventory-empty-state" class="empty-table-state" style="display:none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <h4>No matching medicines found</h4>
+              <p>Try modifying your search query or reset active filters.</p>
+            </div>
+          </div>
+
+          <!-- Pagination Bar -->
+          <div class="table-pagination">
+            <span id="inv-pagination-info">Showing 0 - 0 of 0 medicines</span>
+            <div class="pagination-controls">
+              <button id="inv-page-prev" class="page-btn">Previous</button>
+              <span id="inv-current-page" style="padding:0 0.5rem; font-weight:600;">Page 1</span>
+              <button id="inv-page-next" class="page-btn">Next</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 3: STOCK MOVEMENT LEDGER
+             ================================================================ -->
+        <section id="view-movement" class="page-view">
+          <div class="page-header">
+            <div class="page-title-box">
+              <h2>Stock Movement &amp; Audit Ledger</h2>
+              <p>Traceable history of all Stock In, Stock Out, Returns, and Damage Write-offs</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn-action-primary" onclick="SmartWarehouse.openStockMovementModal('Stock In')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Record Stock In</span>
+              </button>
+              <button class="btn-secondary" onclick="SmartWarehouse.openStockMovementModal('Stock Out')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Record Stock Out</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Txn ID</th>
+                  <th>Medicine</th>
+                  <th>Movement Type</th>
+                  <th style="text-align:right;">Quantity Changed</th>
+                  <th style="text-align:center;">Date &amp; Time</th>
+                  <th>Authorized User</th>
+                  <th>Reason / Notes</th>
+                </tr>
+              </thead>
+              <tbody id="movement-table-tbody">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 4: LOW STOCK PAGE
+             ================================================================ -->
+        <section id="view-low-stock" class="page-view">
+          <div class="page-header">
+            <div class="page-title-box">
+              <h2>Low Stock Alert &amp; Shortage Monitor</h2>
+              <p>Automatically detects medicines where Current Stock &le; Minimum Threshold Level</p>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem; background:var(--warning-bg); border-color:var(--warning-border);">
+            <div style="font-size:0.85rem; color:#92400e; display:flex; align-items:center; gap:0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span><strong>Automated Threshold Detection:</strong> Suggested Reorder Quantity is calculated as <code>Maximum Stock Level - Current Stock</code> to ensure buffer recovery.</span>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Medicine</th>
+                  <th style="text-align:right;">Current Qty</th>
+                  <th style="text-align:right;">Min Level</th>
+                  <th style="text-align:right;">Shortage</th>
+                  <th>Supplier Contact</th>
+                  <th style="text-align:right;">Suggested Reorder</th>
+                  <th>Status</th>
+                  <th>Reorder Action</th>
+                </tr>
+              </thead>
+              <tbody id="lowstock-table-tbody">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 5: EXPIRY TRACKING
+             ================================================================ -->
+        <section id="view-expiry" class="page-view">
+          <div class="page-header">
+            <div class="page-title-box">
+              <h2>Expiry Tracking &amp; Batch Quarantine</h2>
+              <p>Dynamic countdown based on real manufacturing shelf life and batch inspection dates</p>
+            </div>
+          </div>
+
+          <!-- Expiry Quick Filters -->
+          <div style="display:flex; gap:0.75rem; margin-bottom:1.25rem; flex-wrap:wrap;">
+            <button class="btn-secondary" onclick="SmartWarehouse.renderExpiryTable('all')">
+              <span>View All Batches</span>
+            </button>
+            <button class="btn-secondary" style="border-color:var(--danger-border); color:var(--danger);" onclick="SmartWarehouse.renderExpiryTable('expired')">
+              <span>Expired Batches (<span id="exp-count-expired" class="num">0</span>)</span>
+            </button>
+            <button class="btn-secondary" style="border-color:var(--danger-border); color:var(--danger);" onclick="SmartWarehouse.renderExpiryTable('expiring-7')">
+              <span>Within 7 Days (<span id="exp-count-7" class="num">0</span>)</span>
+            </button>
+            <button class="btn-secondary" style="border-color:var(--warning-border); color:var(--warning);" onclick="SmartWarehouse.renderExpiryTable('expiring-30')">
+              <span>Within 30 Days (<span id="exp-count-30" class="num">0</span>)</span>
+            </button>
+            <button class="btn-secondary" style="border-color:var(--success-border); color:var(--success);" onclick="SmartWarehouse.renderExpiryTable('safe')">
+              <span>Safe Batches (&gt;30d)</span>
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Medicine</th>
+                  <th>Batch No.</th>
+                  <th style="text-align:center;">Expiry Date</th>
+                  <th style="text-align:right;">Quantity</th>
+                  <th style="text-align:right;">Valuation at Risk</th>
+                  <th>Shelf-Life Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="expiry-table-tbody">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 6: SMART REORDER RECOMMENDATIONS
+             ================================================================ -->
+        <section id="view-reorder" class="page-view">
+          <div class="page-header">
+            <div class="page-title-box">
+              <h2>Smart Reorder Recommendations Engine</h2>
+              <p>Rule-based decision support system calculating optimal replenishment points and safety stock</p>
+            </div>
+          </div>
+
+          <!-- Formula Explanatory Card for Academic Demonstration -->
+          <div class="reorder-formula-card">
+            <div style="font-weight:700; font-size:1.05rem; display:flex; align-items:center; gap:0.5rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>Deterministic Rule-Based Reorder Formula (Academic Model)</span>
+            </div>
+            <p style="font-size:0.8125rem; opacity:0.9; margin-top:0.35rem;">
+              Notice: This smart warehouse simulation utilizes classical deterministic operational research formulas without reliance on external backend microservices or cloud ML models.
+            </p>
+            <div class="formula-grid">
+              <div class="formula-item">
+                <strong>1. Reorder Point (ROP)</strong>
+                <span class="formula-math">ROP = (Daily Usage × Lead Time) + Safety Stock</span>
+              </div>
+              <div class="formula-item">
+                <strong>2. Decision Criterion</strong>
+                <span class="formula-math">If (Current Stock &le; ROP) &rarr; REORDER REQUIRED</span>
+              </div>
+              <div class="formula-item">
+                <strong>3. Recommended Batch Quantity</strong>
+                <span class="formula-math">Suggested Qty = Maximum Stock - Current Stock</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Medicine</th>
+                  <th style="text-align:right;">Current Stock</th>
+                  <th style="text-align:right;">Avg Daily Usage (ADU)</th>
+                  <th style="text-align:center;">Lead Time</th>
+                  <th style="text-align:right;">Safety Stock</th>
+                  <th style="text-align:right;">Reorder Point (ROP)</th>
+                  <th style="text-align:right;">Suggested Order Qty</th>
+                  <th>Recommendation</th>
+                  <th>Order Action</th>
+                </tr>
+              </thead>
+              <tbody id="reorder-table-tbody">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 7: REPORTS & EXPORTS
+             ================================================================ -->
+        <section id="view-reports" class="page-view">
+          <div class="page-header">
+            <div class="page-title-box">
+              <h2>Inventory Reports &amp; CSV Audit Exports</h2>
+              <p>Generate formal audit reports, print printable documentation, and export pure CSV files</p>
+            </div>
+            <div class="page-actions">
+              <button id="btn-print-report" class="btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                <span>Print Report</span>
+              </button>
+              <button id="btn-export-csv" class="btn-action-primary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Report Selector Controls -->
+          <div class="card" style="margin-bottom:1.25rem;">
+            <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+              <div style="flex:1; min-width:240px;">
+                <label class="form-label">Select Report Subject</label>
+                <select id="report-select-type" class="form-control">
+                  <option value="total-inventory">Complete Inventory Valuation Report</option>
+                  <option value="low-stock">Low Stock &amp; Critical Replenishment Report</option>
+                  <option value="expired-batches">Expired &amp; Quarantined Drug Audit</option>
+                  <option value="expiring-soon">Expiring Soon (30-Day Outlook)</option>
+                  <option value="stock-in">Stock Inflow Consignment Audit</option>
+                  <option value="stock-out">Stock Outflow &amp; Dispensing Audit</option>
+                </select>
+              </div>
+
+              <div style="min-width:180px;">
+                <label class="form-label">Time Scope</label>
+                <select id="report-select-time" class="form-control">
+                  <option value="all">All Available Records</option>
+                  <option value="month">Current Month</option>
+                  <option value="quarter">Fiscal Quarter</option>
+                </select>
+              </div>
+
+              <div style="padding-top:1.5rem;">
+                <button id="btn-generate-report" class="btn-secondary" style="padding:0.65rem 1rem;">
+                  <span>Generate Report</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Metric Ribbon -->
+          <div class="report-summary-bar">
+            <div class="report-summary-item">
+              <div class="label">Total Records Evaluated</div>
+              <div id="report-stat-total-items" class="value num">0</div>
+            </div>
+            <div class="report-summary-item">
+              <div class="label">Total Cumulative Units</div>
+              <div id="report-stat-total-units" class="value num">0</div>
+            </div>
+            <div class="report-summary-item">
+              <div class="label">Aggregate Valuation (INR)</div>
+              <div id="report-stat-total-valuation" class="value num" style="color:var(--primary);">₹ 0.00</div>
+            </div>
+          </div>
+
+          <!-- Live Preview Table -->
+          <div class="card">
+            <div class="card-header">
+              <div id="report-preview-title" class="card-title">Report Preview</div>
+              <span class="badge info">Official Warehouse Document</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead id="report-preview-thead">
+                  <!-- Populated via JS -->
+                </thead>
+                <tbody id="report-preview-tbody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 8: SETTINGS & CONFIGURATION
+             ================================================================ -->
+        <section id="view-settings" class="page-view">
+          <div class="page-header">
+            <div class="page-title-box">
+              <h2>Warehouse System Settings</h2>
+              <p>Configure warehouse identification, manager profile, and local interface parameters</p>
+            </div>
+          </div>
+
+          <div class="card" style="max-width:800px;">
+            <form id="settings-form">
+              <div class="form-grid-2">
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" for="set-warehouse-name">Warehouse Facility Name</label>
+                  <input type="text" id="set-warehouse-name" class="form-control" required>
+                </div>
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" for="set-license-no">Drug Control License / GSTIN</label>
+                  <input type="text" id="set-license-no" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" for="set-manager-name">Chief Pharmacist / Manager</label>
+                  <input type="text" id="set-manager-name" class="form-control" required>
+                </div>
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" for="set-manager-role">Official Designation</label>
+                  <input type="text" id="set-manager-role" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" for="set-email">Emergency Contact Email</label>
+                  <input type="email" id="set-email" class="form-control" required>
+                </div>
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" for="set-theme-select">Visual Display Theme</label>
+                  <select id="set-theme-select" class="form-control">
+                    <option value="light">Clinical Slate &amp; Blue (Light Mode)</option>
+                    <option value="dark">Warehouse Console (Dark Mode)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--border-light);">
+                <button type="button" id="btn-reset-demo-data" class="btn-logout" style="border-color:var(--danger-border);">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 2v6h6M21.5 22v-6h-6"/><path d="M22 11.5A10 10 0 0 0 3.2 7.2L2.5 8M2 12.5a10 10 0 0 0 18.8 4.3l.7-.8"/></svg>
+                  <span>Reset to Factory Demo Data</span>
+                </button>
+                <button type="submit" class="btn-action-primary">
+                  <span>Save Configuration</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 1: ADD / EDIT MEDICINE MODAL
+       ====================================================================== -->
+  <div id="modal-add-medicine" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="med-modal-title" class="modal-title">Add New Medicine to Warehouse</h3>
+        <button class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+      <form id="add-medicine-form">
+        <input type="hidden" id="med-modal-mode" value="add">
+        <div class="modal-body">
+          <div class="form-grid-2" style="margin-bottom:1rem;">
+            <div class="form-group">
+              <label class="form-label" for="med-input-id">Medicine Identifier (ID)</label>
+              <input type="text" id="med-input-id" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="med-input-name">Generic / Brand Name &amp; Strength</label>
+              <input type="text" id="med-input-name" class="form-control" placeholder="e.g. Paracetamol 500mg" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2" style="margin-bottom:1rem;">
+            <div class="form-group">
+              <label class="form-label" for="med-input-category">Therapeutic Category</label>
+              <input type="text" id="med-input-category" class="form-control" placeholder="e.g. Antibiotic, Analgesic..." required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="med-input-batch">Batch Number</label>
+              <input type="text" id="med-input-batch" class="form-control" placeholder="e.g. BTH-PAR-2401" required>
+            </div>
+          </div>
+
+          <div class="form-grid-3" style="margin-bottom:1rem;">
+            <div class="form-group">
+              <label class="form-label" for="med-input-qty">Quantity (Units)</label>
+              <input type="number" id="med-input-qty" class="form-control" min="0" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="med-input-min">Min Stock Threshold</label>
+              <input type="number" id="med-input-min" class="form-control" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="med-input-max">Max Stock Capacity</label>
+              <input type="number" id="med-input-max" class="form-control" min="1">
+            </div>
+          </div>
+
+          <div class="form-grid-2" style="margin-bottom:1rem;">
+            <div class="form-group">
+              <label class="form-label" for="med-input-mfg">Manufacturing Date</label>
+              <input type="date" id="med-input-mfg" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="med-input-exp">Expiration Date</label>
+              <input type="date" id="med-input-exp" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-grid-3" style="margin-bottom:1rem;">
+            <div class="form-group">
+              <label class="form-label" for="med-input-supplier">Supplier / Manufacturer</label>
+              <input type="text" id="med-input-supplier" class="form-control" placeholder="e.g. Cipla Ltd" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="med-input-buyprice">Purchase Price (₹)</label>
+              <input type="number" step="0.01" id="med-input-buyprice" class="form-control" min="0" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="med-input-sellprice">Selling Price (₹)</label>
+              <input type="number" step="0.01" id="med-input-sellprice" class="form-control" min="0" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="med-input-usage">Est. Daily Usage (Units/Day)</label>
+              <input type="number" id="med-input-usage" class="form-control" value="12" min="1">
+              <div class="form-help">Used for smart reorder calculations</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="med-input-lead">Supplier Lead Time (Days)</label>
+              <input type="number" id="med-input-lead" class="form-control" value="5" min="1">
+              <div class="form-help">Days between order placement &amp; delivery</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary btn-modal-cancel">Cancel</button>
+          <button type="submit" class="btn-action-primary">Save Medicine</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 2: STOCK MOVEMENT IN / OUT MODAL
+       ====================================================================== -->
+  <div id="modal-stock-movement" class="modal-overlay">
+    <div class="modal-container" style="max-width:520px;">
+      <div class="modal-header">
+        <h3 id="movement-modal-title" class="modal-title">Record Stock Transaction</h3>
+        <button class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+      <form id="stock-movement-form">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label class="form-label" for="move-input-medicine">Target Medicine</label>
+            <select id="move-input-medicine" class="form-control" required>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+
+          <div class="form-grid-2" style="margin-bottom:1rem;">
+            <div class="form-group">
+              <label class="form-label" for="move-input-type">Movement Type</label>
+              <select id="move-input-type" class="form-control" required>
+                <option value="Stock In">Stock In (Inbound Consignment)</option>
+                <option value="Stock Out">Stock Out (Ward / Pharmacy Issue)</option>
+                <option value="Returned">Returned (Customer / Ward Return)</option>
+                <option value="Damaged">Damaged (Broken / Spoiled Write-off)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="move-input-qty">Quantity of Units</label>
+              <input type="number" id="move-input-qty" class="form-control" min="1" placeholder="e.g. 50" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label class="form-label" for="move-input-user">Authorized Personnel</label>
+            <input type="text" id="move-input-user" class="form-control" value="Dr. Rajesh Sharma" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="move-input-reason">Transaction Reason / PO / Ward Reference</label>
+            <input type="text" id="move-input-reason" class="form-control" placeholder="e.g. Routine OPD replenishment" required>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary btn-modal-cancel">Cancel</button>
+          <button type="submit" class="btn-action-primary">Commit Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 3: PURCHASE ORDER REORDER MODAL
+       ====================================================================== -->
+  <div id="modal-generate-reorder" class="modal-overlay">
+    <div class="modal-container" style="max-width:540px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Generate Purchase Order Requisition</h3>
+        <button class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="po-med-id">
+        <div style="background:var(--bg-subtle); padding:1rem; border-radius:var(--radius-md); margin-bottom:1.25rem;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem;">
+            <span style="font-size:0.8rem; color:var(--text-muted);">Medicine:</span>
+            <strong id="po-med-name" style="font-size:0.85rem;">--</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem;">
+            <span style="font-size:0.8rem; color:var(--text-muted);">Contracted Supplier:</span>
+            <span id="po-med-supplier" style="font-size:0.85rem; font-weight:600;">--</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem;">
+            <span style="font-size:0.8rem; color:var(--text-muted);">Current Physical Stock:</span>
+            <span id="po-med-curstock" class="num" style="color:var(--danger); font-weight:600;">0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="font-size:0.8rem; color:var(--text-muted);">Min Safe Threshold:</span>
+            <span id="po-med-minstock" class="num">0</span>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label" for="po-order-qty">Reorder Units to Procure</label>
+          <input type="number" id="po-order-qty" class="form-control" min="1" required>
+          <div class="form-help">Calculated to restore inventory to optimal capacity</div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem; border:1px dashed var(--border-medium); border-radius:var(--radius-md);">
+          <div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Unit Procurement Cost: <span id="po-unit-price" class="num font-bold">₹0.00</span></div>
+            <div style="font-size:0.85rem; font-weight:700; color:var(--text-main);">Estimated Purchase Order Total:</div>
+          </div>
+          <div id="po-total-cost" class="num font-bold" style="font-size:1.15rem; color:var(--primary);">₹0.00</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary btn-modal-cancel">Cancel</button>
+        <button type="button" id="btn-confirm-reorder-po" class="btn-action-primary">Confirm &amp; Place Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       NOTIFICATIONS SLIDE-OUT DRAWER
+       ====================================================================== -->
+  <aside id="notifications-drawer" class="notifications-drawer">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title">Alerts &amp; Intelligence</div>
+        <span id="drawer-badge-count" style="font-size:0.7rem; color:var(--text-muted);">0 alerts</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <button id="btn-mark-all-read" class="btn-text-sm" title="Clear all">Clear</button>
+        <button id="btn-close-notif-drawer" class="icon-btn" aria-label="Close notifications">&times;</button>
+      </div>
+    </div>
+    <div id="notifications-list-container" class="drawer-content">
+      <!-- Dynamically populated via JS -->
+    </div>
+  </aside>
+
+  <!-- ======================================================================
+       TOAST FEEDBACK CONTAINER
+       ====================================================================== -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Vanilla Application Script -->
+  <script src="./script.js"></script>
+</body>
+</html>
